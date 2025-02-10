@@ -1,2 +1,3 @@
-# utils-rs
-A collection of general rust utils
+# wasm-utils-rs
+
+A collection of rust wasm utils
