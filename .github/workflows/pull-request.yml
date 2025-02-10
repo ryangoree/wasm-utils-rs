@@ -12,7 +12,7 @@ jobs:
   # Check if files in the /test, /crates, or /lib directories or the
   # /Cargo.lock, or /Cargo.toml files were changed in this PR.
   detect-changes:
-    uses: ./.github/workflows/check_diff.yml
+    uses: ./.github/workflows/check-diff.yml
     with:
       pattern: ^test/\|^crates/\|^lib/\|^target/\|^Cargo\.lock$\|^Cargo\.toml$\|^\.github/workflows/rust_test\.yml$
 
