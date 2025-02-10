@@ -1,0 +1,12 @@
+{
+  "dotenv.enableAutocloaking": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "cSpell.words": [
+    "fixedpointmath",
+    "hyperdrive",
+    "numberish",
+    "thiserror"
+  ]
+}
