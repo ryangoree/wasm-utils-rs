@@ -141,16 +141,3 @@ interface JsShareToken extends JsToken {
 - [`tsify`](https://github.com/madonoharu/tsify) – Same idea, but is built on
   [`serde-wasm-bindgen`](https://github.com/RReverser/serde-wasm-bindgen) which
   doesn’t parse JS types, so API types are limited.
-
-## Installation
-
-Add the following to your `Cargo.toml`:
-
-```toml
-[dependencies]
-ts-macro = "0.1.0"
-```
-
-## License
-
-This project is licensed under the [MIT License](../LICENSE).
