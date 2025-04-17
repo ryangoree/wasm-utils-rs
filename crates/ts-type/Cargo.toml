@@ -1,12 +1,19 @@
 [package]
 name = "ts-type"
-version = "1.0.1"
-edition = "2021"
-license = "Apache-2.0"
 description = "Utilities and types for working with TypeScript type representations in Rust."
-authors = ["Ryan Goree"]
-readme = "README.md"
+version = "1.0.1"
+edition = "2024"
+license = "Apache-2.0"
+authors = ["Ryan Goree <goree.ryan@gmail.com>"]
 repository = "https://github.com/ryangoree/wasm-utils-rs"
+categories = [
+  "wasm",
+  "web-programming",
+  "api-bindings",
+  "development-tools::ffi",
+  "compilers",
+]
+keywords = ["typescript", "parse"]
 
 [dependencies]
 lazy_static = "1.4.0"

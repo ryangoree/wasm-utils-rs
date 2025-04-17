@@ -1,9 +1,9 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 members = [
   "crates/sandbox",
   "crates/utils-core",
   "crates/ts-macro",
   "crates/ts-type",
 ]
-rust-version = "1.80.0"
+rust-version = "1.78"
