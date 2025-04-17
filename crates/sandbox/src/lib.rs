@@ -16,21 +16,36 @@ pub fn initialize() {
     console_error_panic_hook::set_once();
 }
 
-/// Foo bar
 #[ts]
-struct FooParams {
-    a: i32,
-    b: String,
-    c: BigInt,
-    d: Option<bool>,
+struct Token {
+    symbol: String,
+    /// @default 18
+    decimals: Option<u8>,
+    total_supply: BigInt,
+}
+
+#[ts]
+struct Order {
+    account: String,
+    amount: BigInt,
+    token: IToken, // Binding to the `Token` struct
 }
 
 /// Foo :)
 #[wasm_bindgen(skip_jsdoc)]
-pub fn foo(params: IFooParams) -> Result<String, Error> {
-    let a = params.a();
-    let b = params.b();
-    let c = params.c();
-    let d = params.d();
-    Ok(format!("a: {}, b: {}, c: {}, d: {:?}", a, b, c, d))
+pub fn foo(order: IOrder) -> Result<String, Error> {
+    let token = order.token();
+    let symbol = token.symbol();
+    let decimals = token.decimals().unwrap_or(18);
+    let total_supply = token.total_supply();
+    let account = order.account();
+    let amount = order.amount();
+    Ok(format!(
+        r#"
+Token: {symbol}
+Decimals: {decimals}
+Total Supply: {total_supply}
+Account: {account}
+Amount: {amount}"#
+    ))
 }

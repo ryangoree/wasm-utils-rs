@@ -4,11 +4,19 @@ export function initialize(): void;
 /**
  * Foo :)
  */
-export function foo(params: IFooParams): string;
-interface IFooParams {
-  a: number;
-  b: string;
-  c: bigint;
-  d?: boolean | undefined;
+export function foo(order: IOrder): string;
+interface IToken {
+  symbol: string;
+  /**
+   * @default 18
+   */
+  decimals?: number | undefined;
+  totalSupply: bigint;
+}
+
+interface IOrder {
+  account: string;
+  amount: bigint;
+  token: IToken;
 }
 

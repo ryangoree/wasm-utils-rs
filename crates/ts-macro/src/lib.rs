@@ -71,7 +71,7 @@ impl Parse for TsArgs {
 /// #[ts]
 /// struct Token {
 ///     symbol: String,
-///     /// Defaults to 18
+///     /// @default 18
 ///     decimals: Option<u8>,
 ///     total_supply: BigInt,
 /// }
@@ -97,7 +97,7 @@ impl Parse for TsArgs {
 /// interface IToken {
 ///   symbol: string;
 ///   /**
-///    * Defaults to 18
+///    * @default 18
 ///    */
 ///   decimals?: number | undefined;
 ///   totalSupply: bigint;

@@ -95,14 +95,16 @@ function takeFromExternrefTable0(idx) {
 ;
 ;
 ;
+;
+;
 module.exports.initialize = function () {
   wasm.initialize();
 };
-module.exports.foo = function (params) {
+module.exports.foo = function (order) {
   let deferred2_0;
   let deferred2_1;
   try {
-    const ret = wasm.foo(params);
+    const ret = wasm.foo(order);
     var ptr1 = ret[0];
     var len1 = ret[1];
     if (ret[3]) {
@@ -121,24 +123,20 @@ module.exports.__wbg_BigInt_470dd987b8190f8e = function (arg0) {
   const ret = BigInt(arg0);
   return ret;
 };
-module.exports.__wbg_a_093f7c206ddc12db = function (arg0) {
-  const ret = arg0.a;
-  return ret;
-};
-module.exports.__wbg_b_fdc6b170dcbe04b5 = function (arg0, arg1) {
-  const ret = arg1.b;
+module.exports.__wbg_account_c8537d5970c64ede = function (arg0, arg1) {
+  const ret = arg1.account;
   const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
   const len1 = WASM_VECTOR_LEN;
   getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
   getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
 };
-module.exports.__wbg_c_57b055bd935580f1 = function (arg0) {
-  const ret = arg0.c;
+module.exports.__wbg_amount_eb12f3622eb0b674 = function (arg0) {
+  const ret = arg0.amount;
   return ret;
 };
-module.exports.__wbg_d_bfa8ced139007bfd = function (arg0) {
-  const ret = arg0.d;
-  return isLikeNone(ret) ? 0xFFFFFF : ret ? 1 : 0;
+module.exports.__wbg_decimals_92ea447d47184ee9 = function (arg0) {
+  const ret = arg0.decimals;
+  return isLikeNone(ret) ? 0xFFFFFF : ret;
 };
 module.exports.__wbg_error_7534b8e9a36f1ab4 = function (arg0, arg1) {
   let deferred0_0;
@@ -170,12 +168,27 @@ module.exports.__wbg_stack_0ed75d68575b0f3c = function (arg0, arg1) {
   getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
   getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
 };
+module.exports.__wbg_symbol_7fd54b5f89b8bdb7 = function (arg0, arg1) {
+  const ret = arg1.symbol;
+  const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+  const len1 = WASM_VECTOR_LEN;
+  getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
+  getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
+};
 module.exports.__wbg_toString_2f76f493957b63da = function (arg0, arg1, arg2) {
   const ret = arg1.toString(arg2);
   const ptr1 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
   const len1 = WASM_VECTOR_LEN;
   getDataViewMemory0().setInt32(arg0 + 4 * 1, len1, true);
   getDataViewMemory0().setInt32(arg0 + 4 * 0, ptr1, true);
+};
+module.exports.__wbg_token_62ddd92f7e597a41 = function (arg0) {
+  const ret = arg0.token;
+  return ret;
+};
+module.exports.__wbg_totalsupply_c0b3565ba0adae11 = function (arg0) {
+  const ret = arg0.totalSupply;
+  return ret;
 };
 module.exports.__wbindgen_init_externref_table = function () {
   const table = wasm.__wbindgen_export_3;

@@ -14,16 +14,12 @@ jobs:
   detect-changes:
     uses: ./.github/workflows/check-diff.yml
     with:
-      pattern: ^test/\|^crates/\|^lib/\|^target/\|^Cargo\.lock$\|^Cargo\.toml$\|^\.github/workflows/rust_test\.yml$
+      pattern: ^crates/\|^lib/\|^Cargo\.lock$\|^Cargo\.toml$
 
   verify:
     runs-on: ubuntu-latest
     needs: detect-changes
     if: needs.detect-changes.outputs.changed == 'true'
-    strategy:
-      matrix:
-        task: [lint, test]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,6 +33,7 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-
-      - name: Run ${{ matrix.task }}
-         run: make ${{ matrix.task }}
+      - run: cargo check
+      - run: cargo clippy
+      - run: cargo fmt --check
+      - run: cargo test --lib

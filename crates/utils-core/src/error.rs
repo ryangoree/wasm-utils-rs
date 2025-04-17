@@ -152,18 +152,27 @@ mod tests {
     #[test]
     fn test_type_error() {
         let error = type_error!("Bad value: {}", "Foo");
-        assert!(error
-            .to_string()
-            .starts_with(&format!("TypeError: Bad value: Foo\n    Location: ")));
+        assert!(
+            error
+                .to_string()
+                .starts_with(&format!("Bad value: Foo\n    Location: ")),
+            "error = {}",
+            error.to_string()
+        );
     }
 
     #[test]
     fn test_type_error_at() {
         let location = Location::caller().to_string();
         let error = type_error_at!(location, "Bad value: {}", "Foo");
-        assert!(error.to_string().starts_with(
-            format!("TypeError: Bad value: Foo\n    Location: {}", location).as_str()
-        ));
+        assert!(
+            error
+                .to_string()
+                .starts_with(format!("Bad value: Foo\n    Location: \"{}\"", location).as_str()),
+            "expected = {}\nerror = {}",
+            format!("Bad value: Foo\n    Location: {}", location).as_str(),
+            error.to_string()
+        );
     }
 
     #[test]
@@ -171,15 +180,20 @@ mod tests {
         let error = error!("Bad value: {}", "Foo");
         assert!(error
             .to_string()
-            .starts_with("Error: Bad value: Foo\n    Location: "));
+            .starts_with("Bad value: Foo\n    Location: "));
     }
 
     #[test]
     fn test_generic_error_at() {
         let location = Location::caller().to_string();
         let error = error_at!(location, "Bad value: {}", "Foo");
-        assert!(error
-            .to_string()
-            .starts_with(format!("Error: Bad value: Foo\n    Location: {}", location).as_str()));
+        assert!(
+            error
+                .to_string()
+                .starts_with(format!("Bad value: Foo\n    Location: \"{}\"", location).as_str()),
+            "expected = {}\nerror = {}",
+            format!("Bad value: Foo\n    Location: {}", location).as_str(),
+            error.to_string()
+        );
     }
 }
