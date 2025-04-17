@@ -1,0 +1,22 @@
+{
+	"name": "sandbox-js",
+	"version": "1.0.0",
+	"license": "Apache-2.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "tsx scripts/build.ts",
+		"watch": "bun run build && onchange 'src/**/*.rs' -- bun run build"
+	},
+	"devDependencies": {
+		"@types/node": "^22.14.1",
+		"@types/proper-lockfile": "^4.1.4",
+		"onchange": "^7.1.0",
+		"proper-lockfile": "^4.1.2",
+		"smol-toml": "^1.3.3",
+		"tsx": "^4.19.3",
+		"typescript": "^5.8.3",
+		"wasm-pack": "^0.13.1",
+		"wasm-pkg-build": "^0.5.3"
+	}
+}

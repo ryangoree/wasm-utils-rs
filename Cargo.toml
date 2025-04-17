@@ -1,6 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
+  "crates/sandbox",
   "crates/utils-core",
   "crates/ts-macro",
   "crates/ts-type",

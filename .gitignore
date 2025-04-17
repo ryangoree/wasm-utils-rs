@@ -1,7 +1,16 @@
-dist
-*.local
-coverage
 .DS_Store
-*.pem
 .env
+*.pem
+*.local
+dist
+coverage
+
+# vim
+remappings.txt
+
+# Rust
 target
+.rustc_info.json
+
+# Node
+node_modules

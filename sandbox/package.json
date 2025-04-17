@@ -1,0 +1,20 @@
+{
+	"name": "sandbox",
+	"version": "1.0.0",
+	"private": true,
+	"license": "AGPL-3.0",
+	"type": "module",
+	"scripts": {
+		"execute": "tsx --env-file-if-exists=.env",
+		"dev": "yarn execute src/index.ts",
+		"watch": "yarn execute --watch src/index.ts"
+	},
+	"dependencies": {
+		"@workspace/sandbox-js": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^22.14.1",
+		"tsx": "^4.19.3",
+		"typescript": "^5.8.3"
+	}
+}

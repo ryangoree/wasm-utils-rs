@@ -1,0 +1,29 @@
+{
+  "name": "@workspace/sandbox-js",
+  "version": "1.0.0",
+  "license": "AGPL-3.0",
+  "files": [
+    "sandbox_js.js",
+    "sandbox_js.cjs",
+    "sandbox_js.d.ts",
+    "sandbox_js_bg.wasm"
+  ],
+  "sideEffects": [
+    "./snippets/*"
+  ],
+  "type": "module",
+  "main": "sandbox_js.cjs",
+  "types": "sandbox_js.d.ts",
+  "exports": {
+    ".": {
+      "default": {
+        "require": "./sandbox_js.cjs",
+        "import": "./sandbox_js.js",
+        "types": "./sandbox_js.d.ts"
+      }
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

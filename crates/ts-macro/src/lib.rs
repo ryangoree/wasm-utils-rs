@@ -11,12 +11,10 @@ use syn::{
 };
 use ts_type::{ts_type, ToTsType, TsType};
 
-/// A helper designed for use within procedural macros that constructs a token
-/// stream that directly expands into a formatted [`compile_error!`] at the
-/// location where the procedural macro is invoked.
+/// Return a [`TokenStream`] that expands into a formatted [`compile_error!`].
 ///
 /// [`compile_error!`]: https://doc.rust-lang.org/std/macro.compile_error.html
-macro_rules! macro_panic {
+macro_rules! abort {
     ($($arg:tt)*) => {{
         let msg = format!($($arg)*);
         return TokenStream::from(quote! {
@@ -200,8 +198,8 @@ impl Parse for TsArgs {
 ///    specialCASING: string;
 ///    specialFormat: `0x${string}`;
 ///    optionalFieldAndValue?: string | undefined;
-///    optionalField?: string;
 ///    optionalValue: string | undefined;
+///    optionalField?: string;
 /// }
 /// ```
 #[proc_macro_attribute]
@@ -216,7 +214,7 @@ pub fn ts(attr: TokenStream, input: TokenStream) -> TokenStream {
             fields: Fields::Named(fields),
             ..
         } => (ident, fields),
-        _ => macro_panic!("The `ts` attribute can only be used on structs with named fields."),
+        _ => abort!("The `ts` attribute can only be used on structs with named fields."),
     };
 
     let ts_name = match args.name {
@@ -252,7 +250,7 @@ pub fn ts(attr: TokenStream, input: TokenStream) -> TokenStream {
 
                 ts_type
             }
-            Err(err) => macro_panic!("{}", err),
+            Err(err) => abort!("{}", err),
         };
 
         // Iterate over the attributes of the field to extract the `ts`
@@ -282,11 +280,13 @@ pub fn ts(attr: TokenStream, input: TokenStream) -> TokenStream {
             // Ensure the attribute is a list
             let args_list = match attr.parse_meta() {
                 Ok(Meta::List(list)) => list,
-                _ => macro_panic!(
+                _ => {
+                    abort!(
                     "`ts` attribute for field `{}` must be a list, e.g. `#[ts(type = \"Js{}\")]`.",
                     field_name.to_string(),
                     field_name.to_string().to_pascal_case(),
-                ),
+                )
+                }
             };
 
             // Iterate over the items in the list and extract the values
@@ -301,7 +301,7 @@ pub fn ts(attr: TokenStream, input: TokenStream) -> TokenStream {
                                 "name" => {
                                     match arg.lit {
                                         Lit::Str(lit_str) => ts_field_name = format_ident!("{}", lit_str.value()),
-                                        _ => macro_panic!("`name` for field `{field_name}` must be a string literal."),
+                                        _ => abort!("`name` for field `{field_name}` must be a string literal."),
                                     };
                                 }
                                 "type" => {
@@ -310,19 +310,19 @@ pub fn ts(attr: TokenStream, input: TokenStream) -> TokenStream {
                                             let ts_type = TsType::from_ts_str(lit_str.value().as_str());
                                             ts_field_type = match ts_type {
                                                 Ok(ts_type) => ts_type,
-                                                Err(err) => macro_panic!("{}", err),
+                                                Err(err) => abort!("{}", err),
                                             }
                                         }
-                                        _ => macro_panic!("`type` for field `{field_name}` must be a string literal."),
+                                        _ => abort!("`type` for field `{field_name}` must be a string literal."),
                                     };
                                 }
                                 "optional" => {
                                     match arg.lit {
                                         Lit::Bool(bool_lit) => is_optional = bool_lit.value,
-                                        _ => macro_panic!("`optional` for field `{field_name}` must be a boolean literal."),
+                                        _ => abort!("`optional` for field `{field_name}` must be a boolean literal."),
                                     };
                                 }
-                                unknown => macro_panic!(
+                                unknown => abort!(
                                     r#"Unknown argument for field `{field}`: `{attr}`. Options are:
     - type: The TypeScript type of the field
     - name: The name of the field in the TypeScript interface
@@ -332,7 +332,7 @@ pub fn ts(attr: TokenStream, input: TokenStream) -> TokenStream {
                                 ),
                             }
                         }
-                        _ => macro_panic!(
+                        _ => abort!(
                             "`ts` attribute for field `{}` must be a list of name-value pairs, e.g. `#[ts(type = \"{}\")]`.",
                             field_name.to_string(),
                             field_name.to_string().to_pascal_case()
