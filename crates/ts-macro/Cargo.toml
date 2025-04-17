@@ -1,7 +1,12 @@
 [package]
 name = "ts-macro"
-version = "0.0.0"
+version = "1.0.0"
 edition = "2021"
+license = "Apache-2.0"
+description = "Generate TypeScript interface bindings from a Rust struct."
+authors = ["Ryan Goree"]
+readme = "README.md"
+repository = "https://github.com/ryangoree/wasm-utils-rs"
 
 [lib]
 proc-macro = true
@@ -14,4 +19,4 @@ syn = { version = "1.0", features = ["full"] }
 wasm-bindgen = "0.2.92"
 
 # workspace
-ts-type = { path = "../ts-type" }
+ts-type = { path = "../ts-type", version = "1.0.0" }

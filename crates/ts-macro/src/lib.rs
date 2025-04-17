@@ -59,7 +59,7 @@ impl Parse for TsArgs {
     }
 }
 
-/// Generate TypeScript interface bindings for a Rust struct.
+/// Generate TypeScript interface bindings from a Rust struct.
 ///
 /// Each field of the struct will be included in a TypeScript interface
 /// definition with camelCase field names and the corresponding TypeScript
