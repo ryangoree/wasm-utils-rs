@@ -1,4 +1,5 @@
 use std::{fmt::Debug, panic::Location};
+
 use wasm_bindgen::JsValue;
 
 /// A simple error that can be converted to a JsValue for passing to JavaScript.

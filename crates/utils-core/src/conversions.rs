@@ -1,6 +1,7 @@
+use std::{panic::Location, str::FromStr};
+
 use ethers::types::{Address, I256, U256};
 use js_sys::BigInt;
-use std::{panic::Location, str::FromStr};
 use wasm_bindgen::JsValue;
 
 use crate::{
