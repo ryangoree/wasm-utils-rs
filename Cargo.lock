@@ -2622,7 +2622,7 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "ts-macro"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "heck",
  "quote",
@@ -2633,7 +2633,7 @@ dependencies = [
 
 [[package]]
 name = "ts-type"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "lazy_static",
  "regex",

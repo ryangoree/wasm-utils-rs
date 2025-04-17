@@ -1,6 +1,6 @@
 [package]
 name = "ts-type"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 license = "Apache-2.0"
 description = "Utilities and types for working with TypeScript type representations in Rust."
