@@ -3,15 +3,19 @@
 	"version": "1.0.0",
 	"license": "Apache-2.0",
 	"private": true,
-	"workspaces": ["crates/*", "packages/*", "sandbox"],
+	"workspaces": [
+		"crates/*",
+		"packages/*",
+		"sandbox"
+	],
 	"type": "module",
 	"scripts": {
 		"build": "bun run --filter \"./crates/*\" build"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"@changesets/cli": "^2.29.2",
-		"@types/bun": "^1.2.10",
-		"typescript": "^5.8.3"
+		"@biomejs/biome": "^2.2.7",
+		"@changesets/cli": "^2.29.7",
+		"@types/bun": "^1.3.0",
+		"typescript": "^5.9.3"
 	}
 }

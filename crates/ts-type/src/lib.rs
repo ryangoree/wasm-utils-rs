@@ -22,8 +22,8 @@ lazy_static! {
 pub enum TsType {
     /// A single type, e.g., `string`.
     Base(String),
-    Array(Box<TsType>),
     Paren(Box<TsType>),
+    Array(Box<TsType>),
     Tuple(Vec<TsType>),
     Union(Vec<TsType>),
     Intersection(Vec<TsType>),
@@ -80,6 +80,9 @@ impl TsType {
     /// Find out if this type contains another type e.g. `(string | number)[]`
     /// contains `string`
     pub fn contains(&self, other: &Self) -> bool {
+        if self == other {
+            return true;
+        }
         match self {
             Self::Base(name) => match other {
                 // compare the names of 2 base types
@@ -87,23 +90,15 @@ impl TsType {
                 // a base type can't contain anything other than itself
                 _ => false,
             },
-            Self::Array(inner) => inner.contains(other),
             Self::Paren(inner) => inner.contains(other),
-            Self::IndexedAccess(base, key) => base.contains(other) || key.contains(other),
-            Self::Generic(base, args) => {
-                if base.contains(other) {
-                    return true;
-                }
-                for arg in args {
-                    if arg.contains(other) {
-                        return true;
-                    }
-                }
-                false
-            }
+            Self::Array(inner) => inner.contains(other),
+            Self::Tuple(types) => types.iter().any(|ty| ty.contains(other)),
             Self::Union(types) => types.iter().any(|ty| ty.contains(other)),
             Self::Intersection(types) => types.iter().any(|ty| ty.contains(other)),
-            Self::Tuple(types) => types.iter().any(|ty| ty.contains(other)),
+            Self::Generic(base, args) => {
+                base.contains(other) || args.iter().any(|arg| arg.contains(other))
+            }
+            Self::IndexedAccess(base, key) => base.contains(other) || key.contains(other),
         }
     }
 
@@ -779,17 +774,65 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_contains() {
+        let base = ts_type!(string);
+        assert!(base.contains(&ts_type!(string)));
+        assert!(!base.contains(&ts_type!(number)));
+
+        let paren = ts_type!((string));
+        assert!(paren.contains(&ts_type!((string))));
+        assert!(paren.contains(&ts_type!(string)));
+        assert!(!paren.contains(&ts_type!(number)));
+
+        let array = ts_type!(string[]);
+        assert!(array.contains(&ts_type!(string[])));
+        assert!(array.contains(&ts_type!(string)));
+        assert!(!array.contains(&ts_type!(number)));
+
+        let tuple = ts_type!([string, number]);
+        assert!(tuple.contains(&ts_type!([string, number])));
+        assert!(tuple.contains(&ts_type!(string)));
+        assert!(tuple.contains(&ts_type!(number)));
+        assert!(!tuple.contains(&ts_type!(boolean)));
+
+        let union = ts_type!(string | number);
+        assert!(union.contains(&ts_type!(string | number)));
+        assert!(union.contains(&ts_type!(string)));
+        assert!(union.contains(&ts_type!(number)));
+        assert!(!union.contains(&ts_type!(boolean)));
+
+        let intersection = ts_type!(string & number);
+        assert!(intersection.contains(&ts_type!(string & number)));
+        assert!(intersection.contains(&ts_type!(string)));
+        assert!(intersection.contains(&ts_type!(number)));
+        assert!(!intersection.contains(&ts_type!(boolean)));
+
+        let generic = ts_type!(Set<string, number>);
+        assert!(generic.contains(&ts_type!(Set<string, number>)));
+        assert!(generic.contains(&ts_type!(Set)));
+        assert!(generic.contains(&ts_type!(string)));
+        assert!(generic.contains(&ts_type!(number)));
+        assert!(!generic.contains(&ts_type!(boolean)));
+
+        let indexed_access = ts_type!(Car[string]);
+        assert!(indexed_access.contains(&ts_type!(Car[string])));
+        assert!(indexed_access.contains(&ts_type!(Car)));
+        assert!(indexed_access.contains(&ts_type!(string)));
+        assert!(!indexed_access.contains(&ts_type!(number)));
+    }
+
+    #[test]
     fn test_formatting() {
         let base = ts_type!(string);
         assert_eq!(base.to_string(), "string");
 
         #[rustfmt::skip]
-        let array = ts_type!(string  [  ]);
-        assert_eq!(array.to_string(), "string[]");
-
-        #[rustfmt::skip]
         let paren = ts_type!((  string |     number ));
         assert_eq!(paren.to_string(), "(string | number)");
+
+        #[rustfmt::skip]
+        let array = ts_type!(string  [  ]);
+        assert_eq!(array.to_string(), "string[]");
 
         #[rustfmt::skip]
         let generic = ts_type!(Set< string,   number >);

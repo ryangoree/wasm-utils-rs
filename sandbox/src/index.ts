@@ -5,8 +5,8 @@ const result = foo({
 	amount: 100n,
 	token: {
 		symbol: "FOO",
-		decimals: 18,
 		totalSupply: 100n,
+		decimals: 18,
 	},
 });
 
