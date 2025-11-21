@@ -13,7 +13,7 @@ conversions that are friendly to procedural macros such as
   interpolation of previously built fragments.
 - Parser and `ToTsType` trait turn `&str` or `syn::Type` values into `TsType`,
   with special behaviour for `Option<T>` and `Vec<T>` to map to
-  `| undefined` and `[]` respectively.
+  `T | undefined` and `T[]` respectively.
 - Lightweight `TsTypeError` and `type_error_at!` macro surface precise parsing
   locations when something cannot be represented.
 
